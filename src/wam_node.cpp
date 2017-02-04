@@ -677,6 +677,10 @@ template<size_t DOF>
         rt_jp_cmd[i] = msg->joints[i];
         rt_jp_rl[i] = msg->rate_limits[i];
       }
+
+      rt_jp_cmd[3] = 2*M_PI - msg->joints[3];
+      rt_jp_rl[3] = -msg->rate_limits[3];
+
       new_rt_cmd = true;
     }
     last_jnt_pos_msg_time = ros::Time::now();
@@ -716,6 +720,12 @@ template<size_t DOF>
       wam_joint_state.velocity[i] = jv[i];
       wam_joint_state.effort[i] = jt[i];
     }
+
+    wam_joint_state.position[3] = 2*M_PI - jp[3];
+    wam_joint_state.velocity[3] = -jv[3];
+    wam_joint_state.effort[3] = -jt[3];
+
+
     wam_joint_state.header.stamp = ros::Time::now();
     wam_joint_state_pub.publish(wam_joint_state);
 
