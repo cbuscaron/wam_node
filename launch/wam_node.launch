@@ -1,0 +1,19 @@
+<launch>
+  <node name="wam_node" type="wam_node" pkg="wam_node" output="screen" />
+
+  <param name="robot_description" textfile="/home/cam/mikes_ws/src/inflatable_layer/robots/wam.urdf" />
+  <param name="use_gui" value="true"/>
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="wam_joint_state_publisher">
+    <rosparam param="source_list" subst_value="true">
+      ["/wam/joint_states"]
+    </rosparam>
+    <remap from="robot_description" to="/robot_description"/>
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="wam_robot_state_publisher">
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz"  required="true" />
+
+</launch>
